@@ -1,24 +1,33 @@
 pipeline {
     agent any
-
+    
     stages {
-        stage('Build Docker Image') {
+        stage('Build') {
             steps {
                 script {
-                    // Build the Docker image
-                    docker.build('your-dockerhub-username/my-python-app:latest')
+                    // Clone the repository
+                    checkout scm
+
+                    // Build the Python app (install Flask)
+                    sh 'pip install Flask'
+
+                    // Dockerize the app
+                    sh 'docker build -t my-python-app .'
                 }
             }
         }
 
-        stage('Push to Docker Hub') {
+        stage('Publish to Docker Hub') {
             steps {
                 script {
-                    // Log in to Docker Hub
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
-                        // Push the Docker image to Docker Hub
-                        docker.image('your-dockerhub-username/my-python-app:latest').push()
+                    // Log in to Docker Hub (replace with your Docker Hub credentials)
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
                     }
+
+                    // Tag and push the Docker image to Docker Hub
+                    sh 'docker tag my-python-app your-dockerhub-username/my-python-app:latest'
+                    sh 'docker push your-dockerhub-username/my-python-app:latest'
                 }
             }
         }
