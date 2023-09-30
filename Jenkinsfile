@@ -2,26 +2,25 @@ pipeline {
     agent any
 
     stages {
-        
-        stage (build) {
-            
-            steps{
-                echo 'looking cock..??'
+        stage('Build Docker Image') {
+            steps {
                 script {
-                    def test = 2 > 3 ? 'cool' : 'not cool'
-                    echo test
-                }   
-
+                    // Build the Docker image
+                    docker.build('michalisst/my-python-app:latest')
+                }
             }
         }
-        
-        stage (test) {
-            
-            steps{
-                echo 'sucking cock..?'             
+
+        stage('Push to Docker Hub') {
+            steps {
+                script {
+                    // Log in to Docker Hub
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
+                        // Push the Docker image to Docker Hub
+                        docker.image('michalisst/my-python-app:latest').push()
+                    }
+                }
             }
-        }        
-        
+        }
     }
-    
 }
