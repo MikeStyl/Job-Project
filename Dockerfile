@@ -1,3 +1,4 @@
+RUN usermod -aG docker jenkins
 # Use a base Python image
 FROM python:3.11
 
