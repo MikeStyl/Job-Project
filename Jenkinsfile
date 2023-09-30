@@ -6,7 +6,7 @@ pipeline {
         stage (build) {
             
             steps{
-                echo 'looking cock..?'
+                echo 'looking cock..??'
                 script {
                     def test = 2 > 3 ? 'cool' : 'not cool'
                     echo test
