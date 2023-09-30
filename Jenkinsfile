@@ -7,7 +7,10 @@ pipeline {
             
             steps{
                 echo 'looking cock..?'
-
+                script {
+                    def test = 2 > 3 ? 'cool' : 'not cool'
+                    echo test
+                }   
 
             }
         }
@@ -15,11 +18,7 @@ pipeline {
         stage (test) {
             
             steps{
-                echo 'sucking cock..?'
-                script {
-                    def test = 2 > 3 ? 'cool' : 'not cool'
-                    echo test
-                }                
+                echo 'sucking cock..?'             
             }
         }        
         
