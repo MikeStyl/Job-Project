@@ -12,7 +12,7 @@ COPY hello_world.py .
 RUN pip install Flask
 
 # Expose port 8080
-EXPOSE 8000
+EXPOSE 8080
 
 # Define the command to run when the container starts
 CMD ["python", "hello_world.py"]
